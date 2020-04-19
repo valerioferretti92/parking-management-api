@@ -7,7 +7,7 @@ import com.valerioferretti.parking.model.Parking;
 import com.valerioferretti.parking.model.Ticket;
 import com.valerioferretti.parking.service.InvoiceService;
 import com.valerioferretti.parking.service.TicketService;
-import com.valerioferretti.parking.service.impl.pricing.PricingPolicy;
+import com.valerioferretti.parking.service.PricingPolicyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.valerioferretti.parking.repository.ParkingDao;
@@ -79,7 +79,7 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     public Invoice removeCar(String parkingId, String cardId) throws ParkingNotFoundException, NotFoundCarException, UnknownPricingPolicyException {
-        PricingPolicy pricingPolicy;
+        PricingPolicyService pricingPolicyService;
         Parking parking;
         Date departure, arrival;
         double amount;
@@ -100,8 +100,8 @@ public class ParkingServiceImpl implements ParkingService {
         departure = Calendar.getInstance().getTime();
         parking.getStatus().remove(cardId);
         parkingDao.update(parking);
-        pricingPolicy = pricingPolicyFactory.getPricingPolicy(parking.getPricingType());
-        amount = pricingPolicy.getAmount(cardId, parkingId, arrival, departure);
+        pricingPolicyService = pricingPolicyFactory.getPricingPolicy(parking.getPricingType());
+        amount = pricingPolicyService.getAmount(cardId, parkingId, arrival, departure);
         return invoiceService.insert(parkingId, cardId, arrival, departure, amount);
     }
 }

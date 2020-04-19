@@ -1,5 +1,6 @@
-package com.valerioferretti.parking.service.impl.pricing;
+package com.valerioferretti.parking.service.impl;
 
+import com.valerioferretti.parking.service.PricingPolicyService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -7,7 +8,7 @@ import java.math.RoundingMode;
 import java.util.Date;
 
 @Service
-public class HourlyAndFixedPricing implements PricingPolicy {
+public class HourlyAndFixedPricingImpl implements PricingPolicyService {
     public Double getAmount(String carId, String parkingId, Date arrival, Date departure) {
         Double duration;
 
