@@ -1,10 +1,7 @@
 package com.valerioferretti.parking.service.impl;
 
 import com.valerioferretti.parking.exceptions.*;
-import com.valerioferretti.parking.model.Car;
-import com.valerioferretti.parking.model.Invoice;
-import com.valerioferretti.parking.model.Parking;
-import com.valerioferretti.parking.model.Ticket;
+import com.valerioferretti.parking.model.*;
 import com.valerioferretti.parking.service.InvoiceService;
 import com.valerioferretti.parking.service.TicketService;
 import com.valerioferretti.parking.service.PricingPolicyService;
@@ -18,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.valerioferretti.parking.utils.Utils.carMatchesParking;
+import static com.valerioferretti.parking.utils.Utils.checkFees;
 
 @Service
 public class ParkingServiceImpl implements ParkingService {
@@ -31,12 +29,15 @@ public class ParkingServiceImpl implements ParkingService {
     @Autowired
     private PricingPolicyFactory pricingPolicyFactory;
 
-    public Parking insert(Parking parking) throws ParkingAlreadyExistsException {
+    public Parking insert(Parking parking) throws ParkingAlreadyExistsException, BadFeesSpecificationException {
         Parking parkingDb;
 
         parkingDb = parkingDao.findById(parking.getParkingId());
         if (parkingDb != null) {
             throw new ParkingAlreadyExistsException(parking.getParkingId());
+        }
+        if(!checkFees(parking.getPricingType(), parking.getFees())) {
+            throw new BadFeesSpecificationException();
         }
         return parkingDao.insert(parking);
     }
@@ -82,6 +83,7 @@ public class ParkingServiceImpl implements ParkingService {
         PricingPolicyService pricingPolicyService;
         Parking parking;
         Date departure, arrival;
+        Fees fees;
         double amount;
 
         parking = parkingDao.findById(parkingId);
@@ -98,10 +100,11 @@ public class ParkingServiceImpl implements ParkingService {
         //Check out car and return invoice
         arrival = parking.getStatus().get(cardId);
         departure = Calendar.getInstance().getTime();
+        fees = parking.getFees();
         parking.getStatus().remove(cardId);
         parkingDao.update(parking);
         pricingPolicyService = pricingPolicyFactory.getPricingPolicy(parking.getPricingType());
-        amount = pricingPolicyService.getAmount(cardId, parkingId, arrival, departure);
+        amount = pricingPolicyService.getAmount(cardId, parkingId, arrival, departure, fees);
         return invoiceService.insert(parkingId, cardId, arrival, departure, amount);
     }
 }

@@ -16,6 +16,7 @@ public class Parking {
 
     public Parking () {
         status = new HashMap<String, java.util.Date>();
+        fees = new Fees();
     }
 
     @Id
@@ -32,4 +33,7 @@ public class Parking {
     private Integer capacity;
     @Field
     private Map<String, Date> status;
+    @Field
+    @NotNull
+    private Fees fees;
 }

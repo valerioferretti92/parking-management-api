@@ -9,7 +9,7 @@ import com.valerioferretti.parking.model.Ticket;
 import java.util.List;
 
 public interface ParkingService {
-    Parking insert(Parking parking) throws ParkingAlreadyExistsException;
+    Parking insert(Parking parking) throws ParkingAlreadyExistsException, BadFeesSpecificationException;
     void delete(String parkingId);
     List<Parking> getAll();
     Ticket addCar(String parkingId, Car car) throws ParkingNotFoundException, CarAlreadyParkedException, FullParkingException, ParkingNotAllowedException;

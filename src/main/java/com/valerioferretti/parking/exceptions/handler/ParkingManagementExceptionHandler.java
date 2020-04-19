@@ -62,7 +62,7 @@ public class ParkingManagementExceptionHandler extends ResponseEntityExceptionHa
     public final ResponseEntity<ApiError> handleNotFoundCarException(NotFoundCarException ex, WebRequest request) {
         String errorMessage;
 
-        errorMessage = "Car " + ex.getCarId() + " is not parked in parking" + ex.getParkingId() + ".";
+        errorMessage = "Car " + ex.getCarId() + " is not parked in parking " + ex.getParkingId() + ".";
         return buildResponse(errorMessage, request, HttpStatus.NOT_FOUND);
     }
 
@@ -71,6 +71,14 @@ public class ParkingManagementExceptionHandler extends ResponseEntityExceptionHa
         String errorMessage;
 
         errorMessage = "Car " + ex.getCarId() + " is not allowed to park in parking " + ex.getParkingId() + ".";
+        return buildResponse(errorMessage, request, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BadFeesSpecificationException.class)
+    public final ResponseEntity<ApiError> handleBadFeesSpecificationException(BadFeesSpecificationException ex, WebRequest request) {
+        String errorMessage;
+
+        errorMessage = "Bad fees specification.";
         return buildResponse(errorMessage, request, HttpStatus.BAD_REQUEST);
     }
 

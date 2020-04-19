@@ -6,12 +6,12 @@ import java.util.Date;
 
 @Data
 public class ApiError {
-    private String message;
+    private String errorMessage;
     private Date timestamp;
     private String details;
 
-    public ApiError(String message, String details, Date timestamp) {
-        this.message = message;
+    public ApiError(String errorMessage, String details, Date timestamp) {
+        this.errorMessage = errorMessage;
         this.details = details;
         this.timestamp = timestamp;
     }

@@ -26,7 +26,8 @@ public class ParkingController {
     private ParkingService parkingService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> insert(@RequestBody @Valid Parking parking) throws ParkingAlreadyExistsException {
+    public ResponseEntity<?> insert(@RequestBody @Valid Parking parking)
+            throws ParkingAlreadyExistsException, BadFeesSpecificationException {
 
         log.info("Creating parking {}...", parking.getParkingId());
         parking = parkingService.insert(parking);
