@@ -4,6 +4,11 @@ import lombok.Data;
 
 @Data
 public class NotFoundCarException extends Exception {
-    private String carId;
     private String parkingId;
+    private String carId;
+
+    public NotFoundCarException(String parkingId, String carId) {
+        this.parkingId = parkingId;
+        this.carId = carId;
+    }
 }

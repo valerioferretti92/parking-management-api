@@ -15,14 +15,14 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     private InvoiceDao invoiceDao;
 
-    public Invoice insert(String parkingId, String carId, long arrival, long departure, double amount) {
+    public Invoice insert(String parkingId, String carId, Date arrival, Date departure, Double amount) {
         Invoice invoice;
 
         invoice = new Invoice();
         invoice.setParkingId(parkingId);
         invoice.setCarId(carId);
-        invoice.setArrival(new Date(arrival));
-        invoice.setDeparture(new Date(departure));
+        invoice.setArrival(arrival);
+        invoice.setDeparture(departure);
         invoice.setAmount(amount);
         return invoiceDao.insert(invoice);
     }

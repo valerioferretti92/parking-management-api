@@ -15,13 +15,13 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     private TicketDao ticketDao;
 
-    public Ticket insert(String parkingId, String carId, long arrival) {
+    public Ticket insert(String parkingId, String carId, Date arrival) {
         Ticket ticket;
 
         ticket = new Ticket();
         ticket.setParkingId(parkingId);
         ticket.setCarId(carId);
-        ticket.setArrival(new Date(arrival));
+        ticket.setArrival(arrival);
         return ticketDao.insert(ticket);
     }
 

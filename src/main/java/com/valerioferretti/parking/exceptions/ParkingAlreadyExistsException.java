@@ -3,10 +3,11 @@ package com.valerioferretti.parking.exceptions;
 import lombok.Data;
 
 @Data
-public class FullParkingException extends Exception {
+public class ParkingAlreadyExistsException extends Exception {
     private String parkingId;
 
-    public FullParkingException(String parkingId) {
+    public ParkingAlreadyExistsException(String parkingId) {
+        super();
         this.parkingId = parkingId;
     }
 }

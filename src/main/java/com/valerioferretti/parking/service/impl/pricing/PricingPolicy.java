@@ -1,5 +1,7 @@
 package com.valerioferretti.parking.service.impl.pricing;
 
+import java.util.Date;
+
 public interface PricingPolicy {
-    double getAmount(String carId, String parkingId, long arrival, long departure);
+    Double getAmount(String carId, String parkingId, Date arrival, Date departure);
 }

@@ -2,14 +2,18 @@ package com.valerioferretti.parking.service.impl.pricing;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Date;
+
 @Service
 public class HourlyAndFixedPricing implements PricingPolicy {
-    public double getAmount(String carId, String parkingId, long arrival, long departure) {
-        double roundedDuration;
-        double duration;
+    public Double getAmount(String carId, String parkingId, Date arrival, Date departure) {
+        Double duration;
 
-        duration = (double) ((departure - arrival) / 1000) / 3600;
-        roundedDuration = Math.round(duration * 100.0) / 100.0;
-        return roundedDuration * 5.00 + 10.00;
+        duration = BigDecimal.valueOf(( (double) (departure.getTime() - arrival.getTime()) / 1000) / 3600)
+                .setScale(2, RoundingMode.HALF_DOWN)
+                .doubleValue();
+        return duration * 5.00 + 10.00;
     }
 }

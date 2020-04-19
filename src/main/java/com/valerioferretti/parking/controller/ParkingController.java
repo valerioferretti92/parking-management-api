@@ -1,9 +1,6 @@
 package com.valerioferretti.parking.controller;
 
-import com.valerioferretti.parking.exceptions.CarAlreadyParkedException;
-import com.valerioferretti.parking.exceptions.FullParkingException;
-import com.valerioferretti.parking.exceptions.NotFoundCarException;
-import com.valerioferretti.parking.exceptions.ParkingNotFoundException;
+import com.valerioferretti.parking.exceptions.*;
 import com.valerioferretti.parking.model.Car;
 import com.valerioferretti.parking.model.Invoice;
 import com.valerioferretti.parking.model.Parking;
@@ -16,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.valerioferretti.parking.service.ParkingService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,7 +26,7 @@ public class ParkingController {
     private ParkingService parkingService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> insert(@RequestBody Parking parking){
+    public ResponseEntity<?> insert(@RequestBody @Valid Parking parking) throws ParkingAlreadyExistsException {
 
         log.info("Creating parking {}...", parking.getParkingId());
         parking = parkingService.insert(parking);
@@ -60,12 +58,12 @@ public class ParkingController {
 
     @RequestMapping(value = "/checkin/{parkingId}", method = RequestMethod.PUT)
     public ResponseEntity<?> addCar(@PathVariable String parkingId,
-                                    @RequestBody Car car)
-            throws ParkingNotFoundException, CarAlreadyParkedException, FullParkingException {
+                                    @RequestBody @Valid Car car)
+            throws ParkingNotFoundException, CarAlreadyParkedException, FullParkingException, ParkingNotAllowedException {
         Ticket ticket;
 
         log.info("Adding car {} to parking {}...", car.getCarId(), parkingId);
-        ticket = parkingService.addCar(parkingId, car.getCarId());
+        ticket = parkingService.addCar(parkingId, car);
         log.info("Car parked!");
 
         return new ResponseEntity<Ticket>(ticket, HttpStatus.OK);
@@ -74,7 +72,7 @@ public class ParkingController {
     @RequestMapping(value = "/checkout/{parkingId}", method = RequestMethod.PUT)
     public ResponseEntity<?> removeCar(@PathVariable String parkingId,
                                        @RequestBody Car car)
-            throws ParkingNotFoundException, NotFoundCarException {
+            throws ParkingNotFoundException, NotFoundCarException, UnknownPricingPolicyException {
         Invoice invoice;
 
         log.info("Removing car {} to parking {}...", car.getCarId(), parkingId);
