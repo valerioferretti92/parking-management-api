@@ -4,18 +4,19 @@ import com.valerioferretti.parking.model.Fees;
 import com.valerioferretti.parking.service.PricingPolicyService;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Date;
 
 @Service
 public class HourlyAndFixedPricingImpl implements PricingPolicyService {
     public Double getAmount(String carId, String parkingId, Date arrival, Date departure, Fees fees) {
-        Double duration;
+        double duration, amount;
 
-        duration = BigDecimal.valueOf(( (double) (departure.getTime() - arrival.getTime()) / 1000) / 3600)
-                .setScale(2, RoundingMode.HALF_DOWN)
-                .doubleValue();
-        return duration * fees.getHourlyFee() + fees.getFixedFee();
+        if(departure.getTime() < arrival.getTime()) {
+            return 0.00;
+        }
+
+        duration = (((double)(departure.getTime() - arrival.getTime()) / 1000) / 3600);
+        amount = duration * fees.getHourlyFee() + fees.getFixedFee();
+        return  Math.floor(amount * 100) / 100;
     }
 }
