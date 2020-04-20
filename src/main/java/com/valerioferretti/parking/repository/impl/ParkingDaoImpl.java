@@ -13,8 +13,12 @@ import java.util.List;
 @Repository
 public class ParkingDaoImpl implements ParkingDao {
 
-    @Autowired
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    public ParkingDaoImpl(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
     public Parking insert(Parking parking) {
         mongoTemplate.insert(parking);

@@ -11,8 +11,12 @@ import java.util.List;
 @Repository
 public class TicketDaoImpl implements TicketDao {
 
-    @Autowired
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    public TicketDaoImpl(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
     public Ticket insert(Ticket ticket) {
         mongoTemplate.insert(ticket);

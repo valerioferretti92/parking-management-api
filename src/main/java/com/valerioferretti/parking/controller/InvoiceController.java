@@ -3,6 +3,7 @@ package com.valerioferretti.parking.controller;
 import com.valerioferretti.parking.model.Invoice;
 import com.valerioferretti.parking.model.Parking;
 import com.valerioferretti.parking.service.InvoiceService;
+import com.valerioferretti.parking.service.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,12 @@ public class InvoiceController {
 
     private static final Logger log = LoggerFactory.getLogger(InvoiceController.class);
 
-    @Autowired
     private InvoiceService invoiceService;
+
+    @Autowired
+    public InvoiceController(InvoiceService invoiceService) {
+        this.invoiceService = invoiceService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getAll(){

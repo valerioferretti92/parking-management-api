@@ -20,14 +20,21 @@ import static com.valerioferretti.parking.utils.Utils.checkFees;
 @Service
 public class ParkingServiceImpl implements ParkingService {
 
-    @Autowired
     private ParkingDao parkingDao;
-    @Autowired
     private TicketService ticketService;
-    @Autowired
     private InvoiceService invoiceService;
-    @Autowired
     private PricingPolicyFactory pricingPolicyFactory;
+
+    @Autowired
+    public ParkingServiceImpl(ParkingDao parkingDao,
+                              TicketService ticketService,
+                              InvoiceService invoiceService,
+                              PricingPolicyFactory pricingPolicyFactory) {
+        this.parkingDao = parkingDao;
+        this.ticketService = ticketService;
+        this.invoiceService = invoiceService;
+        this.pricingPolicyFactory = pricingPolicyFactory;
+    }
 
     public Parking insert(Parking parking) throws ParkingAlreadyExistsException, BadFeesSpecificationException {
         Parking parkingDb;

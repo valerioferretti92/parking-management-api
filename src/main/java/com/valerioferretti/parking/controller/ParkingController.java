@@ -22,8 +22,12 @@ public class ParkingController {
 
     private static final Logger log = LoggerFactory.getLogger(ParkingController.class);
 
-    @Autowired
     private ParkingService parkingService;
+
+    @Autowired
+    public ParkingController(ParkingService parkingService) {
+        this.parkingService = parkingService;
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> insert(@RequestBody @Valid Parking parking)

@@ -2,6 +2,7 @@ package com.valerioferretti.parking.service.impl;
 
 import com.valerioferretti.parking.model.Fees;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Calendar;
 import java.util.Date;

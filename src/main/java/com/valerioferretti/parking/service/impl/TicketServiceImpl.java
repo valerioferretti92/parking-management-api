@@ -12,8 +12,12 @@ import java.util.List;
 @Service
 public class TicketServiceImpl implements TicketService {
 
-    @Autowired
     private TicketDao ticketDao;
+
+    @Autowired
+    public TicketServiceImpl(TicketDao ticketDao) {
+        this.ticketDao = ticketDao;
+    }
 
     public Ticket insert(String parkingId, String carId, Date arrival) {
         Ticket ticket;

@@ -2,6 +2,7 @@ package com.valerioferretti.parking.service.impl;
 
 import com.valerioferretti.parking.model.Invoice;
 import com.valerioferretti.parking.repository.InvoiceDao;
+import com.valerioferretti.parking.repository.TicketDao;
 import com.valerioferretti.parking.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,12 @@ import java.util.List;
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
 
-    @Autowired
     private InvoiceDao invoiceDao;
+
+    @Autowired
+    public InvoiceServiceImpl(InvoiceDao invoiceDao) {
+        this.invoiceDao = invoiceDao;
+    }
 
     public Invoice insert(String parkingId, String carId, Date arrival, Date departure, Double amount) {
         Invoice invoice;

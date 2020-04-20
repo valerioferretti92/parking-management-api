@@ -11,8 +11,12 @@ import java.util.List;
 @Repository
 public class InvoiceDaoImpl implements InvoiceDao {
 
-    @Autowired
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    public InvoiceDaoImpl(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
     public Invoice insert(Invoice invoice) {
         mongoTemplate.insert(invoice);

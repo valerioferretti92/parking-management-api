@@ -11,8 +11,12 @@ import org.springframework.context.ApplicationContext;
 @Service
 public class PricingPolicyFactory {
 
-    @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    public PricingPolicyFactory(ApplicationContext applicationContext){
+        this.applicationContext = applicationContext;
+    }
 
     public PricingPolicyService getPricingPolicy(PricingType pricingType) throws UnknownPricingPolicyException {
         AutowireCapableBeanFactory beanFactory;

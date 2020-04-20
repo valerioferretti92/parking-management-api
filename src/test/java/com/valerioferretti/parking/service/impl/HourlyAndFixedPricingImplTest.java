@@ -9,7 +9,6 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
-@SpringBootTest
 public class HourlyAndFixedPricingImplTest {
 
     private HourlyAndFixedPricingImpl hourlyAndFixedPricing = new HourlyAndFixedPricingImpl();
