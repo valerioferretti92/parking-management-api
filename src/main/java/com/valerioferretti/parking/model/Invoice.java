@@ -19,5 +19,5 @@ public class Invoice {
     @Field
     private Date departure;
     @Field
-    private double amount;
+    private Double amount;
 }

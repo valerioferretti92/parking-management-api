@@ -72,7 +72,7 @@ public class ParkingServiceImpl implements ParkingService {
             throw new ParkingNotAllowedException(parking, car);
         }
         //Check that car 'carId' is not already parked in parking 'parkingId'
-        if (parking.getStatus().keySet().contains(car)) {
+        if (parking.getStatus().keySet().contains(car.getCarId())) {
             throw new CarAlreadyParkedException(parkingId, car.getCarId());
         }
         //Check that parking is not full
