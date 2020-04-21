@@ -36,7 +36,7 @@ curl --location --request POST 'http://localhost:8080/api/v1/parking' \
 ```
 Delete a parking:
 ```
-curl --location --request DELETE 'http://localhost:8080/api/v1/parking/zxcvbn'
+curl --location --request DELETE 'http://localhost:8080/api/v1/parking/parkingId'
 ```
 Park a car:
 ```
