@@ -17,7 +17,7 @@ $ cd parking-management-api
 $ mvn clean install
 $ java -jar target/parking-management-api-1.0-SNAPSHOT.jar
 ```
-The API can be testing by issuing HTTP request to the machine where the application runs at port 8080. The following shows how to test through CURL:
+The API can be tested by issuing HTTP request to the machine where the application runs at port 8080. The following shows how to test through CURL:
 
 Register a parking:
 ```
@@ -36,11 +36,11 @@ curl --location --request POST 'http://localhost:8080/api/v1/parking' \
 ```
 Delete a parking:
 ```
-curl --location --request DELETE 'http://localhost:8080/api/v1/parking/parkingId'
+curl --location --request DELETE 'http://localhost:8080/api/v1/parking/{parkingId}'
 ```
 Park a car:
 ```
-curl --location --request PUT 'http://localhost:8080/api/v1/parking/checkin/parkingId' \
+curl --location --request PUT 'http://localhost:8080/api/v1/parking/checkin/{parkingId}' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 	"carId": "carId",
@@ -49,7 +49,7 @@ curl --location --request PUT 'http://localhost:8080/api/v1/parking/checkin/park
 ```
 Remove a car:
 ```
-curl --location --request PUT 'http://localhost:8080/api/v1/parking/checkout/parkingId' \
+curl --location --request PUT 'http://localhost:8080/api/v1/parking/checkout/{parkingId}' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 	"carId": "carId"
@@ -61,8 +61,7 @@ curl --location --request GET 'http://localhost:8080/api/v1/parking'
 curl --location --request GET 'http://localhost:8080/api/v1/invoice'
 curl --location --request GET 'http://localhost:8080/api/v1/ticket'
 ```
-
-The values parkingType, pricingType and carType are enums which accept the following values:
+parkingType, pricingType and carType are enums which accept the following values:
 - **carType**: GASOLINE, ELECTRIC_20KW, ELECTRIC_50KW
 - **parkingType**: GASOLINE_CAR_PARK, E20KW_CAR_PARK, E50KW_CAR_PARK
 - **pricingType**: HOURLY_PRICING, HOURLY_FIXED_PRICING
