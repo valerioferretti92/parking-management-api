@@ -25,6 +25,10 @@ public class PricingPolicyFactoryTest {
 
     private PricingPolicyFactory pricingPolicyFactory;
 
+    /**
+     * Testing the behaviour of PricingPolicyFactory when the given PricingType value is unknown
+     * @throws UnknownPricingPolicyException
+     */
     @Test(expected = UnknownPricingPolicyException.class)
     public void testGetPricingPolicy_Exception() throws UnknownPricingPolicyException {
         //Setting up mocks
@@ -37,6 +41,10 @@ public class PricingPolicyFactoryTest {
         pricingPolicyFactory.getPricingPolicy(PricingType.HOURLY_PRICING);
     }
 
+    /**
+     * testing intended behaviour of PricingPolicyFactory
+     * @throws UnknownPricingPolicyException
+     */
     @Test
     public void testGetPricingPolicy() throws UnknownPricingPolicyException {
         PricingPolicyService pricingPolicy;

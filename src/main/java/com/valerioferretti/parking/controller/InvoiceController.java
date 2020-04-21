@@ -28,6 +28,10 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
+    /**
+     * Get list of invoices
+     * @return http response with a list of invoices in the body
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getAll(){
         List<Invoice> invoices;

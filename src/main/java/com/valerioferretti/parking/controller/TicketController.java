@@ -29,6 +29,10 @@ public class TicketController {
         this.ticketService = ticketService;
     }
 
+    /**
+     * Get list of tickets
+     * @return http response with a list of tickets in the body
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getAll(){
         List<Ticket> tickets;

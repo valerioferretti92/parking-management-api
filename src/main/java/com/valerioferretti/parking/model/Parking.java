@@ -36,4 +36,21 @@ public class Parking {
     @Field
     @NotNull
     private Fees fees;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Parking)) {
+            return false;
+        }
+
+        Parking parking = (Parking) o;
+        return parkingId.equals(parking.getParkingId())         &&
+                parkingType.equals(parking.getParkingType())    &&
+                pricingType.equals(parking.getPricingType())    &&
+                capacity.equals(parking.getCapacity())          &&
+                fees.equals(parking.getFees());
+    }
 }

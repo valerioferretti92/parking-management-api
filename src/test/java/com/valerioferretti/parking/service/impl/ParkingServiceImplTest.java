@@ -22,7 +22,12 @@ import java.util.Date;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static testutils.TestUtils.getTestCar;
+import static testutils.TestUtils.getTestParking;
 
+/**
+ * Unit tests of methods in ParkingServiceImpl
+ */
 public class ParkingServiceImplTest {
 
     @Mock
@@ -69,7 +74,7 @@ public class ParkingServiceImplTest {
         retrievedParking = parkingService.insert(expectedParking);
 
         //Checking results
-        assertTrue(sameParking(expectedParking, retrievedParking));
+        assertTrue(expectedParking.equals(retrievedParking));
         assertTrue(retrievedParking.getStatus().size() == 0);
     }
 
@@ -131,7 +136,7 @@ public class ParkingServiceImplTest {
     /*********************** Testing ParkingService.addCar() function ***********************/
 
     /**
-     * Mismatching car type and parking type
+     * Testing the car park operation when given parking does not exists
      * @throws ParkingNotAllowedException
      * @throws CarAlreadyParkedException
      * @throws ParkingNotFoundException
@@ -443,37 +448,5 @@ public class ParkingServiceImplTest {
         assertNotNull(invoice.getArrival());
         assertNotNull(invoice.getDeparture());
         assertTrue(invoice.getAmount().compareTo(amount) == 0);
-    }
-
-    /***************************** Private methods *****************************/
-
-    private Car getTestCar(String carId){
-        Car car;
-
-        car = new Car();
-        car.setCarId(carId);
-        car.setCarType(CarType.GASOLINE);
-        return car;
-    }
-
-    private Parking getTestParking(String parkingId){
-        Parking parking = new Parking();
-        parking.setParkingId(parkingId);
-        parking.setParkingType(ParkingType.GASOLINE_CAR_PARK);
-        parking.setPricingType(PricingType.HOURLY_PRICING);
-        parking.setCapacity(5);
-        parking.setFees(new Fees());
-        parking.getFees().setHourlyFee(5.0);
-        parking.getFees().setFixedFee(10.0);
-        return parking;
-    }
-
-    private boolean sameParking(Parking p1, Parking p2){
-        return p1.getParkingId().equals(p2.getParkingId())                      &&
-                p1.getParkingType().equals(p2.getParkingType())                 &&
-                p1.getPricingType().equals(p2.getPricingType())                 &&
-                p1.getCapacity().equals(p2.getCapacity())                       &&
-                p1.getFees().getHourlyFee().equals(p2.getFees().getHourlyFee()) &&
-                p1.getFees().getFixedFee().equals(p2.getFees().getFixedFee());
     }
 }

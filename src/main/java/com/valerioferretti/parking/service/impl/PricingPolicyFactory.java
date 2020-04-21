@@ -18,6 +18,12 @@ public class PricingPolicyFactory {
         this.applicationContext = applicationContext;
     }
 
+    /**
+     * Dispatcher class that matches a pricing type value to the class implementing that pricing policy
+     * @param pricingType pricing policy specified for a parking
+     * @return instance of PricingPolicyService that implements the specified pricing policy
+     * @throws UnknownPricingPolicyException
+     */
     public PricingPolicyService getPricingPolicy(PricingType pricingType) throws UnknownPricingPolicyException {
         AutowireCapableBeanFactory beanFactory;
         PricingPolicyService pricingPolicyService = null;

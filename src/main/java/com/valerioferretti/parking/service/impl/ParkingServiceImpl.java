@@ -36,6 +36,15 @@ public class ParkingServiceImpl implements ParkingService {
         this.pricingPolicyFactory = pricingPolicyFactory;
     }
 
+    /**
+     * Insert new parking. The function checks that:
+     *   no parking with the same ID already exists
+     *   fee values specified match pricing policy assign to the parking
+     * @param parking parking to be inserted
+     * @return parking object
+     * @throws ParkingAlreadyExistsException
+     * @throws BadFeesSpecificationException
+     */
     public Parking insert(Parking parking) throws ParkingAlreadyExistsException, BadFeesSpecificationException {
         Parking parkingDb;
 
@@ -49,14 +58,36 @@ public class ParkingServiceImpl implements ParkingService {
         return parkingDao.insert(parking);
     }
 
+    /**
+     * Delete a parking
+     * @param parkingId id of the parking to be deleted
+     */
     public void delete(String parkingId) {
         parkingDao.delete(parkingId);
     }
 
+    /**
+     * Get the list of parkings previously registered
+     * @return list of parkings previously registered
+     */
     public List<Parking> getAll(){
         return parkingDao.findAll();
     }
 
+    /**
+     * Park a car into a parking. It checks that:
+     *   the given parking exists
+     *   the car is allowed to park in given parking (car type matches park type)
+     *   the given car is not already parked in the given parking
+     *   the given parking is not full
+     * @param parkingId id of the parking where to park our car
+     * @param car car to be parked
+     * @return ticket object
+     * @throws ParkingNotFoundException
+     * @throws CarAlreadyParkedException
+     * @throws FullParkingException
+     * @throws ParkingNotAllowedException
+     */
     public Ticket addCar(String parkingId, Car car) throws ParkingNotFoundException, CarAlreadyParkedException,
             FullParkingException, ParkingNotAllowedException {
         Parking parking;
@@ -86,6 +117,17 @@ public class ParkingServiceImpl implements ParkingService {
         return ticketService.insert(parkingId, car.getCarId(), parking.getStatus().get(car.getCarId()));
     }
 
+    /**
+     * Remove a car from a parking. It checks that:
+     *   the given parking exists
+     *   the car is actually parked in the given parking
+     * @param parkingId id of the parked where to lok for the given car
+     * @param cardId car to be removed
+     * @return invoice object, containing the amount to be paid
+     * @throws ParkingNotFoundException
+     * @throws NotFoundCarException
+     * @throws UnknownPricingPolicyException
+     */
     public Invoice removeCar(String parkingId, String cardId) throws ParkingNotFoundException, NotFoundCarException, UnknownPricingPolicyException {
         PricingPolicyService pricingPolicyService;
         Parking parking;

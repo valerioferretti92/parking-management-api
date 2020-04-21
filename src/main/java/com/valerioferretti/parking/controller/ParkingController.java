@@ -29,6 +29,13 @@ public class ParkingController {
         this.parkingService = parkingService;
     }
 
+    /**
+     * Register new parking
+     * @param parking parking to be registered
+     * @return http response with parking object in the body
+     * @throws ParkingAlreadyExistsException
+     * @throws BadFeesSpecificationException
+     */
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> insert(@RequestBody @Valid Parking parking)
             throws ParkingAlreadyExistsException, BadFeesSpecificationException {
@@ -40,6 +47,11 @@ public class ParkingController {
         return new ResponseEntity<Parking>(parking, HttpStatus.OK);
     }
 
+    /**
+     * Delete a parking previously registered
+     * @param parkingId id of the parking to delete
+     * @return http response with empty body
+     */
     @RequestMapping(value = "/{parkingId}",method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteById(@PathVariable String parkingId){
 
@@ -50,6 +62,10 @@ public class ParkingController {
         return new ResponseEntity<Parking>(HttpStatus.OK);
     }
 
+    /**
+     * Get list of all parkings previously registered
+     * @return http response with the list of parkings in the body
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getAll(){
         List<Parking> parkings;
@@ -61,6 +77,16 @@ public class ParkingController {
         return new ResponseEntity<List<Parking>>(parkings, HttpStatus.OK);
     }
 
+    /**
+     * Park a car into a parking.
+     * @param parkingId id of the parking where to park the car
+     * @param car car to be parked
+     * @return http response with a ticket object in the body
+     * @throws ParkingNotFoundException
+     * @throws CarAlreadyParkedException
+     * @throws FullParkingException
+     * @throws ParkingNotAllowedException
+     */
     @RequestMapping(value = "/checkin/{parkingId}", method = RequestMethod.PUT)
     public ResponseEntity<?> addCar(@PathVariable String parkingId,
                                     @RequestBody @Valid Car car)
@@ -74,6 +100,15 @@ public class ParkingController {
         return new ResponseEntity<Ticket>(ticket, HttpStatus.OK);
     }
 
+    /**
+     * Remove a car from a parking.
+     * @param parkingId id of parking where the car is supposed to be parked
+     * @param car car to be removed
+     * @return http response with an invoice object in the body
+     * @throws ParkingNotFoundException
+     * @throws NotFoundCarException
+     * @throws UnknownPricingPolicyException
+     */
     @RequestMapping(value = "/checkout/{parkingId}", method = RequestMethod.PUT)
     public ResponseEntity<?> removeCar(@PathVariable String parkingId,
                                        @RequestBody Car car)

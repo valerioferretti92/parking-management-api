@@ -13,6 +13,9 @@ public class HourlyAndFixedPricingImplTest {
 
     private HourlyAndFixedPricingImpl hourlyAndFixedPricing = new HourlyAndFixedPricingImpl();
 
+    /**
+     * Testing calculated amount when arrival date is greater then departure date (hourly and fixed pricing)
+     */
     @Test
     public void testGetAmount_DepartureSmallerThenArrival() {
         String parkingId = "parkingId";
@@ -23,6 +26,9 @@ public class HourlyAndFixedPricingImplTest {
         assertTrue(amount.compareTo(0.00) == 0);
     }
 
+    /**
+     * Testing calculated amount when arrival date equal to departure date (hourly and fixed pricing)
+     */
     @Test
     public void testGetAmount_DepartureEqualToArrival() {
         String parkingId = "parkingId";
@@ -38,6 +44,9 @@ public class HourlyAndFixedPricingImplTest {
         assertTrue(amount.compareTo(fixedFee) == 0);
     }
 
+    /**
+     * Testing calculated amount when arrival date is smaller then departure date (hourly and fixed pricing)
+     */
     @Test
     public void testGetAmount() {
         String parkingId = "parkingId";

@@ -8,6 +8,16 @@ import java.util.Date;
 
 @Service
 public class HourlyAndFixedPricingImpl implements PricingPolicyService {
+
+    /**
+     * Calculate the amount to be paid if policy applied is HOURLY_FIXED_PRICING
+     * @param carId id of the car to be billed
+     * @param parkingId id of the parking where the car has been parked
+     * @param arrival car arrival date
+     * @param departure car departure date
+     * @param fees fee values applied by the parking
+     * @return amount to be paid for the stay
+     */
     public Double getAmount(String carId, String parkingId, Date arrival, Date departure, Fees fees) {
         double duration, amount;
 

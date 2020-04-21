@@ -11,6 +11,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.Date;
 
+/**
+ * This class contains all methods the manage exceptions raised during execution. Each of the returns the
+ * proper error message to the caller.
+ */
 @ControllerAdvice
 @RestController
 public class ParkingManagementExceptionHandler extends ResponseEntityExceptionHandler {

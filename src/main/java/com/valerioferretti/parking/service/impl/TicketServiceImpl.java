@@ -19,6 +19,13 @@ public class TicketServiceImpl implements TicketService {
         this.ticketDao = ticketDao;
     }
 
+    /**
+     * Insert a ticket object
+     * @param parkingId id of the parking where the car has been parked
+     * @param carId id of the car that has been parked
+     * @param arrival date of car arrival
+     * @return ticket object
+     */
     public Ticket insert(String parkingId, String carId, Date arrival) {
         Ticket ticket;
 
@@ -29,6 +36,10 @@ public class TicketServiceImpl implements TicketService {
         return ticketDao.insert(ticket);
     }
 
+    /**
+     * Get list of emitted tickets
+     * @return list of emitted tickets
+     */
     public List<Ticket> getAll() {
         return ticketDao.findAll();
     }

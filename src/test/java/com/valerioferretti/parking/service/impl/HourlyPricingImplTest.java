@@ -13,6 +13,9 @@ public class HourlyPricingImplTest {
 
     private HourlyPricingImpl hourlyPricing = new HourlyPricingImpl();
 
+    /**
+     * Testing calculated amount when arrival date is greater the departure date (hourly pricing)
+     */
     @Test
     public void testGetAmount_DepartureSmallerThenArrival() {
         String parkingId = "parkingId";
@@ -23,6 +26,9 @@ public class HourlyPricingImplTest {
         assertTrue(amount.compareTo(0.00) == 0);
     }
 
+    /**
+     * Testing calculated amount when arrival date is equal to departure date (hourly pricing)
+     */
     @Test
     public void testGetAmount_DepartureEqualToArrival() {
         String parkingId = "parkingId";
@@ -36,6 +42,9 @@ public class HourlyPricingImplTest {
         assertTrue(amount.compareTo(0.00) == 0);
     }
 
+    /**
+     * Testing calculated amount when arrival date is smaller then departure date (hourly pricing)
+     */
     @Test
     public void testGetAmount() {
         String parkingId = "parkingId";

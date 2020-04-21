@@ -9,4 +9,17 @@ public class Fees {
     private Double hourlyFee;
     @Field
     private Double fixedFee;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Fees)) {
+            return false;
+        }
+
+        Fees fees = (Fees) o;
+        return hourlyFee.equals(fees.getHourlyFee()) && fixedFee.equals(fees.getFixedFee());
+    }
 }
