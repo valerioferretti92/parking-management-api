@@ -7,7 +7,7 @@ REST API of a parking management application built for test purposes and written
 - **Retrieve** the list of tickets, invoices and parkings.
 
 ### Dependencies
-The application assumues that a MongoDB instance is running on the same machine where the backend runs and listening to default port 27017. [Mongo installation guide] (https://docs.mongodb.com/manual/installation/). A possible improvement could be dockerization to avoid introducing dependencies. 
+The application assumues that a MongoDB instance is running on the same machine where the backend runs and listening to default port 27017. [Mongo installation guide](https://docs.mongodb.com/manual/installation/). A possible improvement could be dockerization to avoid introducing dependencies. 
 
 ### How to compile, run and test
 To clone, compile and run, issue the following commands:
