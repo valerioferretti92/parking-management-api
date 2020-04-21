@@ -48,6 +48,13 @@
             <artifactId>jackson-core</artifactId>
             <version>2.9.6</version>
         </dependency>
+
+        <!-- Utils -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -55,6 +62,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.1.2.RELEASE</version>
                 <executions>
                     <execution>
                         <goals>

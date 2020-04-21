@@ -6,6 +6,7 @@ import com.valerioferretti.parking.model.Car;
 import com.valerioferretti.parking.model.Invoice;
 import com.valerioferretti.parking.model.Parking;
 import com.valerioferretti.parking.model.Ticket;
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class ParkingControllerTest {
     public void testInsert() throws ParkingAlreadyExistsException, BadFeesSpecificationException {
         Parking parking;
         Parking parkingDb = null;
-        String parkingId = "parkingId";
+        String parkingId = RandomStringUtils.randomAlphanumeric(10);;
 
         try {
             parking = getTestParking(parkingId);
@@ -76,8 +77,8 @@ public class ParkingControllerTest {
         Parking parking, parkingDb = null;
         Ticket ticket = null;
         Car car;
-        String parkingId = "parkingId";
-        String carId = "carId";
+        String parkingId = RandomStringUtils.randomAlphanumeric(10);;
+        String carId = RandomStringUtils.randomAlphanumeric(10);;
 
         try{
             parking = getTestParking(parkingId);
@@ -124,10 +125,11 @@ public class ParkingControllerTest {
             UnknownPricingPolicyException, NotFoundCarException {
         Ticket ticket1 = null, ticket2 = null;
         Invoice invoice = null;
-        String carId1 = "carId1", carId2 = "carId2";
+        String carId1 = RandomStringUtils.randomAlphanumeric(10);
+        String carId2 = RandomStringUtils.randomAlphanumeric(10);
         Car car1, car2;
         Parking parking, parkingDb = null;
-        String parkingId = "parkingId";
+        String parkingId = RandomStringUtils.randomAlphanumeric(10);;
 
         try{
             parking = getTestParking(parkingId);

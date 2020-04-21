@@ -1,5 +1,5 @@
 # Parking Management API
-REST API of a parking management application built for test purposes and written java / Springboot. The API allows to:
+REST API of a parking management application built for test purposes and written with Java 1.8 and the Springboot framework. The API allows to:
 - **Register** a new Parking
 - **Delete** a Parking through its ID
 - **Park a car** in a given parking, receiving a ticket
