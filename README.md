@@ -7,7 +7,7 @@ REST API of a parking management application built for test purposes and written
 - **Retrieve** the list of tickets, invoices and parkings.
 
 ### Dependencies
-The application assumues that a MongoDB instance is running on the same machine where the backend runs and listening to default port 27017. [Mongo installation guide](https://docs.mongodb.com/manual/installation/). A possible improvement could be dockerization to avoid introducing dependencies. 
+The application assumues that a MongoDB instance is running on the same machine where the backend runs and listening to default port 27017. For more information about mongoDB setup follow [Mongo installation guide](https://docs.mongodb.com/manual/installation/). A possible improvement could be dockerization to avoid introducing dependencies. 
 
 ### How to compile, run and test
 To clone, compile and run, issue the following commands:
@@ -67,4 +67,4 @@ The values parkingType, pricingType and carType are enums which accept the follo
 - **parkingType**: GASOLINE_CAR_PARK, E20KW_CAR_PARK, E50KW_CAR_PARK
 - **pricingType**: HOURLY_PRICING, HOURLY_FIXED_PRICING
 
-Car can not be parked in parkings that do not match their type. E20WKW cars can only be parked in E20KW etc...
+Cars can not be parked in parkings that do not match their type. E20WKW cars can only be parked in E20KW etc...
