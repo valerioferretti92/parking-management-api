@@ -12,6 +12,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -19,7 +21,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.14.6</version>
+            <version>1.18.12</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- springboot -->
@@ -69,9 +72,7 @@
                             <goal>repackage</goal>
                         </goals>
                         <configuration>
-                            <mainClass>
-                                com.valerioferretti.parking.ParkingApplication
-                            </mainClass>
+                            <mainClass> com.valerioferretti.parking.ParkingApplication </mainClass>
                         </configuration>
                     </execution>
                 </executions>
