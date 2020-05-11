@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    active: local
+
+app:
+  version: 1
+  title: Parking Management Api
+  description: Parking Management Api built for fun
+
+---
+
+spring:
+  profiles: local
+
+mongodb:
+  host: localhost
+  port: 27017
+  database: test
+
+---
+
+spring:
+  profiles: container
+
+mongodb:
+  host: ${MONGO_SERVICE_HOST}
+  port: ${MONGO_SERVICE_PORT}
+  database: test
