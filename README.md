@@ -7,9 +7,13 @@ REST API of a parking management application built for test purposes and written
 - **Retrieve** the list of tickets, invoices and parkings.
 
 ### Dependencies
-The application assumues that a MongoDB instance is running on the same machine where the backend runs and listening to default port 27017. For more information about mongoDB setup follow [Mongo installation guide](https://docs.mongodb.com/manual/installation/). A possible improvement could be dockerization to avoid introducing dependencies. 
+There two provided ways to run this application: it can either be deployed on localhost or it can be deployed on a kubernetes cluster.  
 
-### How to compile, run and test
+When deploying on localshost, the application assumues that a MongoDB instance is running on the same machine where the backend runs and listening to default port 27017. For more information about mongoDB setup follow [Mongo installation guide](https://docs.mongodb.com/manual/installation/). A possible improvement could be dockerization to avoid introducing dependencies. 
+
+When deploying on kubernetes, it is necessary to make sure that kubctl is properly configured to manage the desired cluster. The kubernetes deployment files will open the port 30280 on all nodes of the cluster. The application will be reachable at NodeIp:30280.
+
+### How to compile and run on localhost
 To clone, compile and run, issue the following commands:
 ```
 $ git clone https://github.com/valerioferretti92/parking-management-api.git
@@ -17,6 +21,16 @@ $ cd parking-management-api
 $ mvn clean install
 $ java -jar target/parking-management-api-1.0-SNAPSHOT.jar
 ```
+
+### How to compile and run on a Kubernetes cluster
+The application has been developed to be deployed on a Kubernetes cluster. To clone, compile and run, issue the following commands:
+```
+$ git clone https://github.com/valerioferretti92/parking-management-api.git
+$ cd parking-management-api/k8sdeploy
+$ ./deploy
+```
+
+### How to test
 The API can be tested by issuing HTTP request to the machine where the application runs at port 8080. The following shows how to test through CURL:
 
 Register a parking:
