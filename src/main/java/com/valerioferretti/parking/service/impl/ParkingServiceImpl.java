@@ -88,7 +88,7 @@ public class ParkingServiceImpl implements ParkingService {
      * @throws FullParkingException
      * @throws ParkingNotAllowedException
      */
-    public Ticket addCar(String parkingId, Car car) throws ParkingNotFoundException, CarAlreadyParkedException,
+    public synchronized Ticket addCar(String parkingId, Car car) throws ParkingNotFoundException, CarAlreadyParkedException,
             FullParkingException, ParkingNotAllowedException {
         Parking parking;
 
@@ -128,7 +128,7 @@ public class ParkingServiceImpl implements ParkingService {
      * @throws NotFoundCarException
      * @throws UnknownPricingPolicyException
      */
-    public Invoice removeCar(String parkingId, String cardId) throws ParkingNotFoundException, NotFoundCarException, UnknownPricingPolicyException {
+    public synchronized Invoice removeCar(String parkingId, String cardId) throws ParkingNotFoundException, NotFoundCarException, UnknownPricingPolicyException {
         PricingPolicyService pricingPolicyService;
         Parking parking;
         Date departure, arrival;

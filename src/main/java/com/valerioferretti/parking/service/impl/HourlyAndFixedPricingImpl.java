@@ -27,6 +27,6 @@ public class HourlyAndFixedPricingImpl implements PricingPolicyService {
 
         duration = (((double)(departure.getTime() - arrival.getTime()) / 1000) / 3600);
         amount = duration * fees.getHourlyFee() + fees.getFixedFee();
-        return  Math.floor(amount * 100) / 100;
+        return Math.floor(amount * 100) / 100;
     }
 }
