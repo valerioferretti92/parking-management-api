@@ -3,6 +3,7 @@ package com.valerioferretti.parking.exceptions.handler;
 import com.valerioferretti.parking.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -86,12 +87,28 @@ public class ParkingManagementExceptionHandler extends ResponseEntityExceptionHa
         return buildResponse(errorMessage, request, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public final ResponseEntity<ApiError> handleUsernameNotFoundException(UsernameNotFoundException ex, WebRequest request) {
+        String errorMessage;
+
+        errorMessage = ex.getMessage();
+        return buildResponse(errorMessage, request, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AccountAlreadyExistsException.class)
+    public final ResponseEntity<ApiError> handleAccountAlreadyExistsException(AccountAlreadyExistsException ex, WebRequest request) {
+        String errorMessage;
+
+        errorMessage = "The account " + ex.getEmail() + " already exists.";
+        return buildResponse(errorMessage, request, HttpStatus.BAD_REQUEST);
+    }
+
     private final ResponseEntity<ApiError> buildResponse(String errorMessage, WebRequest request, HttpStatus httpStatus) {
         ApiError apiError;
         String details;
 
         details = (request != null) ? request.getDescription(false) : null;
         apiError = new ApiError(errorMessage, details, new Date());
-        return new ResponseEntity<ApiError>(apiError, httpStatus);
+        return new ResponseEntity<>(apiError, httpStatus);
     }
 }

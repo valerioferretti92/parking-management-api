@@ -41,6 +41,6 @@ public class TicketController {
         tickets = ticketService.getAll();
         log.info("List of tickets ready!");
 
-        return new ResponseEntity<List<Ticket>>(tickets, HttpStatus.OK);
+        return new ResponseEntity<>(tickets, HttpStatus.OK);
     }
 }

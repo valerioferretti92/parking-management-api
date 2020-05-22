@@ -17,6 +17,11 @@ mongodb:
   port: 27017
   database: test
 
+accounts:
+  admins:
+    emails: admin@admin.com
+    passwords: $2a$10$jWi5E.WRHlKlvEllxY6al.ANBS/uylxxkAetIq8P0QFDipgcCUahe
+
 ---
 
 spring:
@@ -26,3 +31,8 @@ mongodb:
   host: ${MONGO_SERVICE_HOST}
   port: ${MONGO_SERVICE_PORT}
   database: test
+
+accounts:
+  admins:
+    emails: ${ADMIN_EMAIL}
+    passwords: ${PASSWORD_EMAIL}

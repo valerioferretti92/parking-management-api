@@ -40,6 +40,6 @@ public class InvoiceController {
         invoices = invoiceService.getAll();
         log.info("List of invoices ready!");
 
-        return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
+        return new ResponseEntity<>(invoices, HttpStatus.OK);
     }
 }

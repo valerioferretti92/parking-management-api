@@ -44,7 +44,7 @@ public class ParkingController {
         parking = parkingService.insert(parking);
         log.info("Parking {} created!", parking.getParkingId());
 
-        return new ResponseEntity<Parking>(parking, HttpStatus.OK);
+        return new ResponseEntity<>(parking, HttpStatus.OK);
     }
 
     /**
@@ -59,7 +59,7 @@ public class ParkingController {
         parkingService.delete(parkingId);
         log.info("Parking {} removed!", parkingId);
 
-        return new ResponseEntity<Parking>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
@@ -74,7 +74,7 @@ public class ParkingController {
         parkings = parkingService.getAll();
         log.info("List of parkings ready!");
 
-        return new ResponseEntity<List<Parking>>(parkings, HttpStatus.OK);
+        return new ResponseEntity<>(parkings, HttpStatus.OK);
     }
 
     /**
@@ -97,7 +97,7 @@ public class ParkingController {
         ticket = parkingService.addCar(parkingId, car);
         log.info("Car parked!");
 
-        return new ResponseEntity<Ticket>(ticket, HttpStatus.OK);
+        return new ResponseEntity<>(ticket, HttpStatus.OK);
     }
 
     /**
@@ -119,6 +119,6 @@ public class ParkingController {
         invoice = parkingService.removeCar(parkingId, car.getCarId());
         log.info("Car unparked!");
 
-        return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
+        return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 }
