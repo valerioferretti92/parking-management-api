@@ -1,5 +1,6 @@
 package com.valerioferretti.parking.security;
 
+import com.valerioferretti.parking.config.JwtConfig;
 import com.valerioferretti.parking.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,9 +26,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private UserProfileService userProfileService;
 
+	private JwtConfig jwtConfig;
+
 	@Autowired
-	public WebSecurityConfig(UserProfileService userProfileService){
+	public WebSecurityConfig(UserProfileService userProfileService,
+							 JwtConfig jwtConfig){
 		this.userProfileService = userProfileService;
+		this.jwtConfig = jwtConfig;
 	}
 
 	@Override
@@ -35,8 +40,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		JWTAuthorizationFilter jwtAuthorizationFilter;
 		JWTAuthenticationFilter jwtAuthenticationFilter;
 
-		jwtAuthorizationFilter = new JWTAuthorizationFilter(authenticationManager(), userProfileService);
-		jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager(), userProfileService);
+		jwtAuthorizationFilter = new JWTAuthorizationFilter(
+				authenticationManager(),
+				userProfileService,
+				jwtConfig);
+		jwtAuthenticationFilter = new JWTAuthenticationFilter(
+				authenticationManager(),
+				userProfileService,
+				jwtConfig);
 		jwtAuthenticationFilter.setFilterProcessesUrl(LOGIN_URL);
 
 		http.cors().and().csrf().disable().authorizeRequests()

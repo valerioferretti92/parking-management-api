@@ -3,6 +3,7 @@ package com.valerioferretti.parking.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.valerioferretti.parking.config.JwtConfig;
 import com.valerioferretti.parking.model.UserProfile;
 import com.valerioferretti.parking.service.UserProfileService;
 import com.valerioferretti.parking.utils.Utils;
@@ -25,11 +26,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private AuthenticationManager authenticationManager;
     private UserProfileService userProfileService;
+    private JwtConfig jwtConfig;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager,
-                                   UserProfileService userProfileService) {
+                                   UserProfileService userProfileService,
+                                   JwtConfig jwtConfig) {
         this.authenticationManager = authenticationManager;
         this.userProfileService = userProfileService;
+        this.jwtConfig = jwtConfig;
     }
 
     @SneakyThrows
@@ -47,6 +51,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         return authenticationManager.authenticate(authentication);
     }
 
+    @SneakyThrows
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res,
                                             FilterChain chain, Authentication auth) {
@@ -55,7 +60,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         token = JWT.create()
                 .withSubject(((User) auth.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.JWT_DURATION))
-                .sign(Algorithm.HMAC512(SecurityConstants.JWT_SECRET.getBytes()));
+                .sign(Algorithm.HMAC512(jwtConfig.getJwtSecretRawBytes()));
         res.addHeader(SecurityConstants.JWT_HEADER_KEY, token);
     }
 

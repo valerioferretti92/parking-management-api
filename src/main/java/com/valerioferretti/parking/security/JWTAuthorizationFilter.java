@@ -2,9 +2,12 @@ package com.valerioferretti.parking.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.valerioferretti.parking.config.JwtConfig;
 import com.valerioferretti.parking.model.UserProfile;
 import com.valerioferretti.parking.service.UserProfileService;
 import com.valerioferretti.parking.utils.Utils;
+import lombok.SneakyThrows;
+import org.apache.commons.codec.DecoderException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,13 +24,17 @@ import java.util.Set;
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private UserProfileService userProfileService;
+    private JwtConfig jwtConfig;
 
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager,
-                                  UserProfileService userProfileService) {
+                                  UserProfileService userProfileService,
+                                  JwtConfig jwtConfig) {
         super(authenticationManager);
         this.userProfileService = userProfileService;
+        this.jwtConfig = jwtConfig;
     }
 
+    @SneakyThrows
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws IOException, ServletException {
@@ -38,7 +45,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         chain.doFilter(req, res);
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(String token) {
+    private UsernamePasswordAuthenticationToken getAuthentication(String token) throws DecoderException {
         Set<GrantedAuthority> authorities;
         UserProfile userProfile;
         String email, encodedPassword;
@@ -47,7 +54,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             return null;
         }
 
-        email = JWT.require(Algorithm.HMAC512(SecurityConstants.JWT_SECRET.getBytes()))
+        email = JWT.require(Algorithm.HMAC512(jwtConfig.getJwtSecretRawBytes()))
                 .build().verify(token).getSubject();
         userProfile = userProfileService.get(email);
         encodedPassword = userProfile.getPassword();

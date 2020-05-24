@@ -1,0 +1,7 @@
+kind: Secret
+apiVersion: v1
+metadata:
+  name: accounts-config 
+stringData:
+  adminEmails: admin@admin.com
+  adminPasswords: $2a$10$jWi5E.WRHlKlvEllxY6al.ANBS/uylxxkAetIq8P0QFDipgcCUahe

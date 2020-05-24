@@ -1,7 +1,6 @@
 package com.valerioferretti.parking.security;
 
 public class SecurityConstants {
-    public static final String JWT_SECRET = "SecretKeyToGenJWTs";
     public static final long JWT_DURATION = 86400000; // 1 day
     public static final String JWT_HEADER_KEY = "Authorization";
     public static final String ADMIN_SIGNUP_URL = "/api/v1/account/admin/signup";

@@ -1,0 +1,6 @@
+kind: Secret
+apiVersion: v1
+metadata:
+  name: jwt-config 
+stringData:
+  jwtSecret: 3356D50DE9F3D1EC0A30CBC1E7EF9829ACFC9FA18656F7DCAD91D06264EA10F5

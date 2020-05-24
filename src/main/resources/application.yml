@@ -22,6 +22,10 @@ accounts:
     emails: admin@admin.com
     passwords: $2a$10$jWi5E.WRHlKlvEllxY6al.ANBS/uylxxkAetIq8P0QFDipgcCUahe
 
+security:
+  jwt:
+    secret: 3356D50DE9F3D1EC0A30CBC1E7EF9829ACFC9FA18656F7DCAD91D06264EA10F5
+
 ---
 
 spring:
@@ -34,5 +38,9 @@ mongodb:
 
 accounts:
   admins:
-    emails: ${ADMIN_EMAIL}
-    passwords: ${PASSWORD_EMAIL}
+    emails: ${ADMIN_EMAILS}
+    passwords: ${ADMIN_PASSWORDS}
+
+security:
+  jwt:
+    secret: ${JWT_SECRET}

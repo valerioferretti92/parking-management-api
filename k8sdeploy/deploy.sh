@@ -8,5 +8,7 @@ if [ -z "$TEMP" ]
 then kubectl create namespace pma
 else echo "namespace/pma unchanged"
 fi
+kubectl apply -f accounts-config.yaml --namespace pma
+kubectl apply -f jwt-config.yaml --namespace pma
 kubectl apply -f mongo-statefulset.yaml --namespace pma
 kubectl apply -f parking-management-api.yaml --namespace pma 

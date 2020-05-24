@@ -28,5 +28,21 @@ spec:
         app: pma
     spec:
       containers:
-        - image: valerioferretti/parking-management-api:1.0.0
+        - image: valerioferretti/parking-management-api:2.1.0
           name: pma
+          env:
+          - name: ADMIN_EMAILS
+            valueFrom:
+              secretKeyRef:
+                name: accounts-config
+                key: adminEmails
+          - name: ADMIN_PASSWORDS
+            valueFrom:
+              secretKeyRef:
+                name: accounts-config
+                key: adminPasswords
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: jwt-config
+                key: jwtSecret
