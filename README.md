@@ -30,6 +30,56 @@ $ cd parking-management-api/k8sdeploy
 $ ./deploy
 ```
 
+### Authentication
+All API endpoints are protected by JWT authentication BUT the following:
+- Login: /api/v1/account/login
+- Signup Admin: /api/v1/account/admin/signup
+- Signup User: /api/v1/account/user/signup
+
+In order to be able to interact with all other endpoints, it is necessary to login first, get the JWT token in the "Authorization" header of the response. Such token must then be included in any other request that needs authentication in the "Authorization" header.
+There two different groups of accounts: users and admins. Admins are able to:
+- create parkings
+- delete parkings
+- remove their own account or a user's account
+- modify their own account
+- get all tickets / invoices. 
+
+Users are abe to:
+- remove their own accounts
+- modify their own account
+- park cars
+- unpark cars. 
+
+Login:
+ ```
+curl --location --request POST 'http://localhost:8080/api/v1/account/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"email":"admin@admin.com",
+	"password":"admin"
+}'
+ ```
+
+Signup as user:
+ ```
+curl --location --request POST 'http://localhost:8080/api/v1/account/user/signup' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"email":"valerio@ferretti.com",
+	"password":"valerioferretti"
+}'
+ ```
+
+Signup as admin:
+ ```
+curl --location --request POST 'http://localhost:8080/api/v1/account/admin/signup' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"email":"valerio@ferretti.com",
+	"password":"valerioferretti"
+}'
+ ```
+
 ### How to test
 The API can be tested by issuing HTTP request to the machine where the application runs at port 8080. The following shows how to test through CURL:
 
@@ -37,6 +87,7 @@ Register a parking:
 ```
 curl --location --request POST 'http://localhost:8080/api/v1/parking' \
 --header 'Content-Type: application/json' \
+--header 'Authorization: jwt-token' \
 --data-raw '{
 	"parkingId": "parkingId",
 	"parkingType": "GASOLINE_CAR_PARK",
@@ -50,12 +101,13 @@ curl --location --request POST 'http://localhost:8080/api/v1/parking' \
 ```
 Delete a parking:
 ```
-curl --location --request DELETE 'http://localhost:8080/api/v1/parking/{parkingId}'
+curl --header 'Authorization: jwt-token' --location --request DELETE 'http://localhost:8080/api/v1/parking/{parkingId}'
 ```
 Park a car:
 ```
 curl --location --request PUT 'http://localhost:8080/api/v1/parking/checkin/{parkingId}' \
 --header 'Content-Type: application/json' \
+--header 'Authorization: jwt-token' \
 --data-raw '{
 	"carId": "carId",
 	"carType": "GASOLINE"
@@ -65,15 +117,16 @@ Remove a car:
 ```
 curl --location --request PUT 'http://localhost:8080/api/v1/parking/checkout/{parkingId}' \
 --header 'Content-Type: application/json' \
+--header 'Authorization: jwt-token' \
 --data-raw '{
 	"carId": "carId"
 }'
 ```
 Get all parkings / tickets / invoices
 ```
-curl --location --request GET 'http://localhost:8080/api/v1/parking'
-curl --location --request GET 'http://localhost:8080/api/v1/invoice'
-curl --location --request GET 'http://localhost:8080/api/v1/ticket'
+curl --header 'Authorization: jwt-token' --location --request GET 'http://localhost:8080/api/v1/parking'
+curl --header 'Authorization: jwt-token' --location --request GET 'http://localhost:8080/api/v1/invoice'
+curl --header 'Authorization: jwt-token' --location --request GET 'http://localhost:8080/api/v1/ticket'
 ```
 parkingType, pricingType and carType are enums which accept the following values:
 - **carType**: GASOLINE, ELECTRIC_20KW, ELECTRIC_50KW
