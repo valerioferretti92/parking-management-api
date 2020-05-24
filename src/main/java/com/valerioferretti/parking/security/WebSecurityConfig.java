@@ -1,10 +1,8 @@
 package com.valerioferretti.parking.security;
 
-import com.valerioferretti.parking.model.UserProfile;
 import com.valerioferretti.parking.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		JWTAuthorizationFilter jwtAuthorizationFilter;
 		JWTAuthenticationFilter jwtAuthenticationFilter;
 
-		jwtAuthorizationFilter = new JWTAuthorizationFilter(authenticationManager());
+		jwtAuthorizationFilter = new JWTAuthorizationFilter(authenticationManager(), userProfileService);
 		jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager(), userProfileService);
 		jwtAuthenticationFilter.setFilterProcessesUrl(LOGIN_URL);
 

@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -51,12 +50,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res,
                                             FilterChain chain, Authentication auth) {
-        String token, authorities;
+        String token;
 
-        authorities = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
         token = JWT.create()
                 .withSubject(((User) auth.getPrincipal()).getUsername())
-                .withClaim(SecurityConstants.AUTHORITIES_KEY, authorities)
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.JWT_DURATION))
                 .sign(Algorithm.HMAC512(SecurityConstants.JWT_SECRET.getBytes()));
         res.addHeader(SecurityConstants.JWT_HEADER_KEY, token);

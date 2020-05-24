@@ -2,12 +2,12 @@ package com.valerioferretti.parking.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
 import com.valerioferretti.parking.model.UserProfile;
 import com.valerioferretti.parking.service.UserProfileService;
+import com.valerioferretti.parking.utils.Utils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -16,13 +16,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Set;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
+    private UserProfileService userProfileService;
+
+    public JWTAuthorizationFilter(AuthenticationManager authenticationManager,
+                                  UserProfileService userProfileService) {
         super(authenticationManager);
+        this.userProfileService = userProfileService;
     }
 
     @Override
@@ -36,25 +39,20 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(String token) {
-        Set authorities;
-        String email;
-        String[] claims;
-        Claim claim;
+        Set<GrantedAuthority> authorities;
+        UserProfile userProfile;
+        String email, encodedPassword;
 
         if(token == null) {
             return null;
         }
 
-        authorities = new HashSet<>();
         email = JWT.require(Algorithm.HMAC512(SecurityConstants.JWT_SECRET.getBytes()))
                 .build().verify(token).getSubject();
-        claim = JWT.require(Algorithm.HMAC512(SecurityConstants.JWT_SECRET.getBytes()))
-                    .build().verify(token).getClaim(SecurityConstants.AUTHORITIES_KEY);
-        claims =  claim.asString().split(",");
-        for (String role : claims){
-            authorities.add(new SimpleGrantedAuthority(role));
-        }
-        return new UsernamePasswordAuthenticationToken(email, null, authorities);
+        userProfile = userProfileService.get(email);
+        encodedPassword = userProfile.getPassword();
+        authorities = Utils.getAuthoritiesFromRoles(userProfile.getRoles());
+        return new UsernamePasswordAuthenticationToken(email, encodedPassword, authorities);
     }
 
 }

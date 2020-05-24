@@ -1,9 +1,6 @@
 package com.valerioferretti.parking.controller;
 
-import com.valerioferretti.parking.model.Invoice;
 import com.valerioferretti.parking.model.Ticket;
-import com.valerioferretti.parking.service.InvoiceService;
-import com.valerioferretti.parking.service.ParkingService;
 import com.valerioferretti.parking.service.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
