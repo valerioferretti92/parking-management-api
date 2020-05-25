@@ -5,11 +5,13 @@ import com.valerioferretti.parking.model.Car;
 import com.valerioferretti.parking.model.Invoice;
 import com.valerioferretti.parking.model.Parking;
 import com.valerioferretti.parking.model.Ticket;
+import com.valerioferretti.parking.model.enums.RoleType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.valerioferretti.parking.service.ParkingService;
 
@@ -37,6 +39,7 @@ public class ParkingController {
      * @throws BadFeesSpecificationException
      */
     @RequestMapping(method = RequestMethod.POST)
+    @PreAuthorize("@authorizationManager.hasRole('" + RoleType.RoleTypeValues.ADMIN + "')")
     public ResponseEntity<?> insert(@RequestBody @Valid Parking parking)
             throws ParkingAlreadyExistsException, BadFeesSpecificationException {
 
@@ -53,6 +56,7 @@ public class ParkingController {
      * @return http response with empty body
      */
     @RequestMapping(value = "/{parkingId}",method = RequestMethod.DELETE)
+    @PreAuthorize("@authorizationManager.hasRole('" + RoleType.RoleTypeValues.ADMIN + "')")
     public ResponseEntity<?> deleteById(@PathVariable String parkingId){
 
         log.info("Removing parking {}...", parkingId);
@@ -67,6 +71,7 @@ public class ParkingController {
      * @return http response with the list of parkings in the body
      */
     @RequestMapping(method = RequestMethod.GET)
+    @PreAuthorize("@authorizationManager.hasRole('" + RoleType.RoleTypeValues.ADMIN + "')")
     public ResponseEntity<?> getAll(){
         List<Parking> parkings;
 
@@ -88,6 +93,7 @@ public class ParkingController {
      * @throws ParkingNotAllowedException
      */
     @RequestMapping(value = "/checkin/{parkingId}", method = RequestMethod.PUT)
+    @PreAuthorize("@authorizationManager.hasRole('" + RoleType.RoleTypeValues.USER + "')")
     public ResponseEntity<?> addCar(@PathVariable String parkingId,
                                     @RequestBody @Valid Car car)
             throws ParkingNotFoundException, CarAlreadyParkedException, FullParkingException, ParkingNotAllowedException {
@@ -110,6 +116,7 @@ public class ParkingController {
      * @throws UnknownPricingPolicyException
      */
     @RequestMapping(value = "/checkout/{parkingId}", method = RequestMethod.PUT)
+    @PreAuthorize("@authorizationManager.hasRole('" + RoleType.RoleTypeValues.USER + "')")
     public ResponseEntity<?> removeCar(@PathVariable String parkingId,
                                        @RequestBody Car car)
             throws ParkingNotFoundException, NotFoundCarException, UnknownPricingPolicyException {

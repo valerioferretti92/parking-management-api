@@ -2,13 +2,14 @@ package com.valerioferretti.parking.service.impl;
 
 import com.valerioferretti.parking.exceptions.AccountAlreadyExistsException;
 import com.valerioferretti.parking.model.UserProfile;
-import com.valerioferretti.parking.model.enums.RoleTypes;
+import com.valerioferretti.parking.model.enums.RoleType;
 import com.valerioferretti.parking.repository.UserProfileDao;
 import com.valerioferretti.parking.service.UserProfileService;
 import com.valerioferretti.parking.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -34,7 +36,7 @@ public class UserProfileServiceImpl implements UserProfileService, UserDetailsSe
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserProfile userProfile;
-        Set authorities;
+        Collection<? extends GrantedAuthority> authorities;
 
         userProfile = userProfileDao.findById(email);
         authorities = Utils.getAuthoritiesFromRoles(userProfile.getRoles());
@@ -68,8 +70,8 @@ public class UserProfileServiceImpl implements UserProfileService, UserDetailsSe
         admin.setPassword(encodedPassword);
 
         //Roles management
-        admin.getRoles().remove(RoleTypes.USER);
-        admin.getRoles().add(RoleTypes.ADMIN);
+        admin.getRoles().remove(RoleType.USER);
+        admin.getRoles().add(RoleType.ADMIN);
 
         return userProfileDao.insert(admin);
     }
@@ -90,8 +92,8 @@ public class UserProfileServiceImpl implements UserProfileService, UserDetailsSe
         user.setPassword(encodedPassword);
 
         //Roles management
-        user.getRoles().remove(RoleTypes.ADMIN);
-        user.getRoles().add(RoleTypes.USER);
+        user.getRoles().remove(RoleType.ADMIN);
+        user.getRoles().add(RoleType.USER);
 
         return userProfileDao.insert(user);
     }

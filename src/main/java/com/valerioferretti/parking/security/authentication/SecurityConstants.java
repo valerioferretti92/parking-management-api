@@ -1,4 +1,4 @@
-package com.valerioferretti.parking.security;
+package com.valerioferretti.parking.security.authentication;
 
 public class SecurityConstants {
     public static final long JWT_DURATION = 86400000; // 1 day

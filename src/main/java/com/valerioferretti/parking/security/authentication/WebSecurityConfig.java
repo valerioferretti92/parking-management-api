@@ -1,4 +1,4 @@
-package com.valerioferretti.parking.security;
+package com.valerioferretti.parking.security.authentication;
 
 import com.valerioferretti.parking.config.JwtConfig;
 import com.valerioferretti.parking.service.UserProfileService;
@@ -18,7 +18,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static com.valerioferretti.parking.security.SecurityConstants.*;
+import static com.valerioferretti.parking.security.authentication.SecurityConstants.*;
 
 @EnableWebSecurity()
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -37,25 +37,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		JWTAuthorizationFilter jwtAuthorizationFilter;
-		JWTAuthenticationFilter jwtAuthenticationFilter;
+		JwtValidationManager jwtValidationManager;
+		JwtAuthenticationManager jwtAuthenticationManager;
 
-		jwtAuthorizationFilter = new JWTAuthorizationFilter(
+		jwtValidationManager = new JwtValidationManager(
 				authenticationManager(),
 				userProfileService,
 				jwtConfig);
-		jwtAuthenticationFilter = new JWTAuthenticationFilter(
+		jwtAuthenticationManager = new JwtAuthenticationManager(
 				authenticationManager(),
 				userProfileService,
 				jwtConfig);
-		jwtAuthenticationFilter.setFilterProcessesUrl(LOGIN_URL);
+		jwtAuthenticationManager.setFilterProcessesUrl(LOGIN_URL);
 
 		http.cors().and().csrf().disable().authorizeRequests()
 				// Swagger, permit all
 				.antMatchers(ADMIN_SIGNUP_URL, USER_SIGNUP_URL, LOGIN_URL).permitAll()
 				.anyRequest().authenticated().and()
-				.addFilter(jwtAuthenticationFilter)
-				.addFilter(jwtAuthorizationFilter)
+				.addFilter(jwtAuthenticationManager)
+				.addFilter(jwtValidationManager)
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 

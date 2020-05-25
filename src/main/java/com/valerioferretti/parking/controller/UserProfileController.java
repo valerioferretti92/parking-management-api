@@ -2,12 +2,15 @@ package com.valerioferretti.parking.controller;
 
 import com.valerioferretti.parking.exceptions.AccountAlreadyExistsException;
 import com.valerioferretti.parking.model.UserProfile;
+import com.valerioferretti.parking.model.enums.RoleType;
 import com.valerioferretti.parking.service.UserProfileService;
+import com.valerioferretti.parking.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +51,7 @@ public class UserProfileController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
+    @PreAuthorize("@authorizationManager.hasRole('" + RoleType.RoleTypeValues.ADMIN + "')")
     public ResponseEntity<?> getAll(){
         List<UserProfile> accounts;
 
@@ -58,10 +62,11 @@ public class UserProfileController {
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{email}", method = RequestMethod.GET)
-    public ResponseEntity<?> delete(@PathVariable String email) throws UsernameNotFoundException {
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<?> delete() throws UsernameNotFoundException {
+        String email = Utils.getIdentityFromSecurityContext();
 
-        log.info("Delete account {}}...", email);
+        log.info("Delete account {}...", email);
         userProfileService.delete(email);
         log.info("Account deleted!");
 

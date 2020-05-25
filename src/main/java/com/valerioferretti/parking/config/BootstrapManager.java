@@ -1,9 +1,9 @@
-package com.valerioferretti.parking.service;
+package com.valerioferretti.parking.config;
 
-import com.valerioferretti.parking.config.AdminAccountConfig;
 import com.valerioferretti.parking.exceptions.BadConfigurationException;
 import com.valerioferretti.parking.model.UserProfile;
-import com.valerioferretti.parking.model.enums.RoleTypes;
+import com.valerioferretti.parking.model.enums.RoleType;
+import com.valerioferretti.parking.service.UserProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -11,16 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BootstrapService implements InitializingBean {
+public class BootstrapManager implements InitializingBean {
 
-    private static final Logger log = LoggerFactory.getLogger(BootstrapService.class);
+    private static final Logger log = LoggerFactory.getLogger(BootstrapManager.class);
 
     private AdminAccountConfig adminAccountConfig;
 
     private UserProfileService userProfileService;
 
     @Autowired
-    public BootstrapService(AdminAccountConfig adminAccountConfig,
+    public BootstrapManager(AdminAccountConfig adminAccountConfig,
                             UserProfileService userProfileService) {
         this.adminAccountConfig = adminAccountConfig;
         this.userProfileService = userProfileService;
@@ -46,7 +46,7 @@ public class BootstrapService implements InitializingBean {
             admin = new UserProfile();
             admin.setEmail(emails[i]);
             admin.setPassword(passwords[i]);
-            admin.getRoles().add(RoleTypes.ADMIN);
+            admin.getRoles().add(RoleType.ADMIN);
             userProfileService.initializeAdmin(admin);
         }
     }

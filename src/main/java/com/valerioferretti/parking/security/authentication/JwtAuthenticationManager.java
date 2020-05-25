@@ -1,4 +1,4 @@
-package com.valerioferretti.parking.security;
+package com.valerioferretti.parking.security.authentication;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -19,18 +19,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
-public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class JwtAuthenticationManager extends UsernamePasswordAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
     private UserProfileService userProfileService;
     private JwtConfig jwtConfig;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager,
-                                   UserProfileService userProfileService,
-                                   JwtConfig jwtConfig) {
+    public JwtAuthenticationManager(AuthenticationManager authenticationManager,
+                                    UserProfileService userProfileService,
+                                    JwtConfig jwtConfig) {
         this.authenticationManager = authenticationManager;
         this.userProfileService = userProfileService;
         this.jwtConfig = jwtConfig;
@@ -41,7 +42,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) {
         UserProfile userProfile;
         ApplicationUser credentials;
-        Set<GrantedAuthority> authorities;
+        Collection<? extends GrantedAuthority> authorities;
         UsernamePasswordAuthenticationToken authentication;
 
         credentials = new ObjectMapper().readValue(req.getInputStream(), ApplicationUser.class);

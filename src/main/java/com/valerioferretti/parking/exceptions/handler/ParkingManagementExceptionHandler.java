@@ -3,6 +3,7 @@ package com.valerioferretti.parking.exceptions.handler;
 import com.valerioferretti.parking.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -101,6 +102,14 @@ public class ParkingManagementExceptionHandler extends ResponseEntityExceptionHa
 
         errorMessage = "The account " + ex.getEmail() + " already exists.";
         return buildResponse(errorMessage, request, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public final ResponseEntity<ApiError> handleAccountAlreadyExistsException(AccessDeniedException ex, WebRequest request) {
+        String errorMessage;
+
+        errorMessage = ex.getMessage();
+        return buildResponse(errorMessage, request, HttpStatus.UNAUTHORIZED);
     }
 
     private final ResponseEntity<ApiError> buildResponse(String errorMessage, WebRequest request, HttpStatus httpStatus) {

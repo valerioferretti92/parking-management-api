@@ -1,6 +1,6 @@
 package com.valerioferretti.parking.model;
 
-import com.valerioferretti.parking.model.enums.RoleTypes;
+import com.valerioferretti.parking.model.enums.RoleType;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -23,5 +23,5 @@ public class UserProfile {
     @NotNull
     private String password;
     @Field
-    private Set<RoleTypes> roles;
+    private Set<RoleType> roles;
 }

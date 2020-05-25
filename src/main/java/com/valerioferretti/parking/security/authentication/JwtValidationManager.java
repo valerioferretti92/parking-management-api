@@ -1,4 +1,4 @@
-package com.valerioferretti.parking.security;
+package com.valerioferretti.parking.security.authentication;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -15,20 +15,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.Collection;
 import java.util.Set;
 
-public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+public class JwtValidationManager extends BasicAuthenticationFilter {
 
     private UserProfileService userProfileService;
     private JwtConfig jwtConfig;
 
-    public JWTAuthorizationFilter(AuthenticationManager authenticationManager,
-                                  UserProfileService userProfileService,
-                                  JwtConfig jwtConfig) {
+    public JwtValidationManager(AuthenticationManager authenticationManager,
+                                UserProfileService userProfileService,
+                                JwtConfig jwtConfig) {
         super(authenticationManager);
         this.userProfileService = userProfileService;
         this.jwtConfig = jwtConfig;
@@ -36,8 +35,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     @SneakyThrows
     @Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
-            throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) {
         String token;
 
         token = req.getHeader(SecurityConstants.JWT_HEADER_KEY);
@@ -46,7 +44,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(String token) throws DecoderException {
-        Set<GrantedAuthority> authorities;
+        Collection<? extends GrantedAuthority> authorities;
         UserProfile userProfile;
         String email, encodedPassword;
 

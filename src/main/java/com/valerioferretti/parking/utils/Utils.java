@@ -4,10 +4,12 @@ import com.valerioferretti.parking.model.Fees;
 import com.valerioferretti.parking.model.enums.CarType;
 import com.valerioferretti.parking.model.enums.ParkingType;
 import com.valerioferretti.parking.model.enums.PricingType;
-import com.valerioferretti.parking.model.enums.RoleTypes;
+import com.valerioferretti.parking.model.enums.RoleType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,11 +18,23 @@ import static com.valerioferretti.parking.model.enums.ParkingType.*;
 
 public class Utils {
 
-    public static Set<GrantedAuthority> getAuthoritiesFromRoles(Set<RoleTypes> roles) {
-        Set<GrantedAuthority> authorities;
+    public static String getIdentityFromSecurityContext() {
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    public static Set<RoleType> getRolesFromAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        Set<RoleType> roles;
+
+        roles = new HashSet<>();
+        authorities.forEach(authority -> roles.add(RoleType.valueOf(authority.getAuthority())));
+        return roles;
+    }
+
+    public static Collection<? extends GrantedAuthority> getAuthoritiesFromRoles(Set<RoleType> roles) {
+        Collection<GrantedAuthority> authorities;
 
         authorities = new HashSet<>();
-        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRole())));
+        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.value())));
         return authorities;
     }
 
