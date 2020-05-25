@@ -40,12 +40,12 @@ In order to be able to interact with all other endpoints, it is necessary to log
 There two different groups of accounts: users and admins. Admins are able to:
 - create parkings
 - delete parkings
-- remove their own account or a user's account
+- remove their own account
 - modify their own account
 - get all tickets / invoices. 
 
 Users are abe to:
-- remove their own accounts
+- remove their own account
 - modify their own account
 - park cars
 - unpark cars. 
