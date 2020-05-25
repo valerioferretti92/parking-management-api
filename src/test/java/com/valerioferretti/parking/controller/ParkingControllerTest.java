@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import testutils.TestUtils;
 
 import static org.junit.Assert.*;
 import static testutils.TestUtils.getTestCar;
@@ -47,6 +48,7 @@ public class ParkingControllerTest {
 
         try {
             parking = getTestParking(parkingId);
+            TestUtils.setAuthenticationContextAdmin();
             parking = (Parking) parkingController.insert(parking).getBody();
             parkingDb = mongoTemplate.findById(parkingId, Parking.class);
 
@@ -82,8 +84,10 @@ public class ParkingControllerTest {
 
         try{
             parking = getTestParking(parkingId);
+            TestUtils.setAuthenticationContextAdmin();
             parkingController.insert(parking);
             car = getTestCar(carId);
+            TestUtils.setAuthenticationContextUser();
             ticket = (Ticket) parkingController.addCar(parkingId, car).getBody();
             parkingDb = mongoTemplate.findById(parkingId, Parking.class);
 
@@ -133,9 +137,11 @@ public class ParkingControllerTest {
 
         try{
             parking = getTestParking(parkingId);
+            TestUtils.setAuthenticationContextAdmin();
             parkingController.insert(parking);
             car1 = getTestCar(carId1);
             car2 = getTestCar(carId2);
+            TestUtils.setAuthenticationContextUser();
             ticket1 = (Ticket) parkingController.addCar(parkingId, car1).getBody();
             ticket2 = (Ticket) parkingController.addCar(parkingId, car2).getBody();
 

@@ -28,7 +28,7 @@ spec:
         app: pma
     spec:
       containers:
-        - image: valerioferretti/parking-management-api:2.1.0
+        - image: valerioferretti/parking-management-api:3.0.1
           name: pma
           env:
           - name: ADMIN_EMAILS
